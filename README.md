@@ -68,6 +68,13 @@ clawbio-pipeline/
 
 ### 1. Prerequisites & Virtual Environment
 
+Clone the repository:
+
+```bash
+git clone https://github.com/Febiri/ClawBio-Pipeline.git
+cd ClawBio-Pipeline
+```
+
 Ensure Python 3.10 or higher is installed:
 
 ```bash
