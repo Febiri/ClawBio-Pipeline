@@ -1,0 +1,9 @@
+project_name: "Ovarian Cancer WGS Study"
+reference_genome: "hg38"
+samples:
+  - sample_id: "Tumor_A_R1"
+    raw_fastq: "data/raw/Tumor_A_L001_R1.fastq"
+  - sample_id: "Normal_B_R1"
+    raw_fastq: "data/raw/Normal_B_L001_R1.fastq"
+output_dir: "results"
+
