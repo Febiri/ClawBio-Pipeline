@@ -45,6 +45,18 @@ def get_sample_ids(config: Dict[str, Any]) -> List[str]:
     return [sample["sample_id"] for sample in config["samples"] if "sample_id" in sample]
 
 
+def get_pipeline_options(config: Dict[str, Any]) -> Dict[str, Any]:
+    """Extracts execution options and biological QC thresholds from config."""
+    return {
+        "project_name": config.get("project_name", "Bioinformatics Study"),
+        "reference_genome": config.get("reference_genome", "hg38"),
+        "execution_mode": config.get("execution_mode", "simulation"),
+        "max_workers": config.get("max_workers", 4),
+        "output_dir": config.get("output_dir", "results"),
+        "qc_thresholds": config.get("qc_thresholds", {}),
+    }
+
+
 def validate_fastq(file_path: str | Path) -> bool:
     """Validates that a file is in valid FASTQ format using Biopython SeqIO.
 
@@ -90,10 +102,15 @@ def validate_samples(
             results[sample_id] = False
             continue
 
+        # Support cloud S3 URIs
+        if isinstance(raw_path, str) and raw_path.startswith("s3://"):
+            from src.cloud_storage import is_s3_uri
+            results[sample_id] = is_s3_uri(raw_path) and len(raw_path.split("/")) >= 4
+            continue
+
         resolved_path = (
             base_path / raw_path if not Path(raw_path).is_absolute() else Path(raw_path)
         )
         results[sample_id] = validate_fastq(resolved_path)
 
     return results
-

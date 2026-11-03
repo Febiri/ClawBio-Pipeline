@@ -49,3 +49,7 @@ htmlcov/
 # Output directory
 results/
 
+
+# Pipeline transient data
+data/uploads/
+data/downloads/

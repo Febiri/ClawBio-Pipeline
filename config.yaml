@@ -1,9 +1,18 @@
-project_name: "Ovarian Cancer WGS Study"
-reference_genome: "hg38"
+project_name: Multi-Sample WGS Benchmark Cohort
+reference_genome: hg38
+execution_mode: simulation
+max_workers: 4
+qc_thresholds:
+  min_mapped_percentage: 95.0
+  reference_gc_percent: 41.0
+  max_gc_deviation: 10.0
+  min_phred_quality: 30.0
+  max_duplication_rate: 8.0
 samples:
-  - sample_id: "Tumor_A_R1"
-    raw_fastq: "data/raw/Tumor_A_L001_R1.fastq"
-  - sample_id: "Normal_B_R1"
-    raw_fastq: "data/raw/Normal_B_L001_R1.fastq"
-output_dir: "results"
-
+- sample_id: Normal_Control_R1
+  raw_fastq: data/raw/Normal_Control_R1.fastq
+- sample_id: Tumor_Biopsy_R1
+  raw_fastq: data/raw/Tumor_Biopsy_R1.fastq
+- sample_id: Artifact_Sample_R1
+  raw_fastq: data/raw/Artifact_Sample_R1.fastq
+output_dir: results

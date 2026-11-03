@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  # ClawBio CLI Pipeline Worker
+  pipeline:
+    build: .
+    container_name: clawbio-pipeline-cli
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+    command: ["run-pipeline", "--mode", "simulation", "--workers", "4"]
+
+  # ClawBio FastAPI REST Service & Cloud Orchestrator
+  api:
+    build: .
+    container_name: clawbio-pipeline-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+    environment:
+      - S3_ENDPOINT_URL=http://minio:9000
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin
+    command: ["serve", "--host", "0.0.0.0", "--port", "8000"]
